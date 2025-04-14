@@ -9,21 +9,38 @@ import { Storage } from "enmity/metro/common";
  * @param {string} type - The type of log, either "deleted" or "edited"
  * @param {object} author - The author object of the message, which contains the username, id, and avatar
  * @param {object} context - Context of the log, which contains the guild id, channel id, and message id
- * @param {object} content - the content of the message and the time it was sent put together` in an object
+ * @param {object} content - the content of the message and the time it was sent put together in an object
  */
 async function updateLogStorage(type: string, author: object, context: object, content: object): Promise<void> {
   const itemObject = {
     type: type,
-    author: { ...author, avatar: author["avatar"] ? `https://cdn.discordapp.com/avatars/${author["id"]}/${author["avatar"]}.${(author["avatar"]?.startsWith("a_") ? "gif" : "png")}?size=1024` : "https://cdn.discordapp.com/embed/avatars/0.png" },
+    author: {
+      ...author,
+      avatar: author["avatar"]
+        ? `https://cdn.discordapp.com/avatars/${author["id"]}/${author["avatar"]}.${(author["avatar"]?.startsWith("a_") ? "gif" : "png")}?size=1024`
+        : "https://cdn.discordapp.com/embed/avatars/0.png"
+    },
     context: context,
-    content: (content["edited"] ? [new Date(content["time"]).toLocaleString(), content["original"], content["edited"]] : [new Date(content["time"]).toLocaleString(), content["original"]]),
+    content: content["edited"]
+      ? [new Date(content["time"]).toLocaleString(), content["original"], content["edited"]]
+      : [new Date(content["time"]).toLocaleString(), content["original"]],
+  };
+
+  let logs = await Storage.getItem("NoDeleteLogs");
+  logs = logs ? JSON.parse(logs) : [];
+
+  // Prevent adding duplicate log entries by checking key properties
+  if (
+    logs.length > 0 &&
+    logs[logs.length - 1].author.id === itemObject.author.id &&
+    logs[logs.length - 1].context.message === itemObject.context.message &&
+    logs[logs.length - 1].type === itemObject.type
+  ) {
+    return;
   }
-  let logs = await Storage.getItem("NoDeleteLogs") as any;
-  logs = JSON.parse(logs);
-  // stops logging of duplicate items
-  if (itemObject === logs[logs.length - 1]) return;
+
   logs.push(itemObject);
   await Storage.setItem("NoDeleteLogs", JSON.stringify(logs));
 }
 
-export { updateLogStorage }
+export { updateLogStorage };
