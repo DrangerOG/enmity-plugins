@@ -1,5 +1,5 @@
 {
-  "name": "MsgLogger",
+  "name": "NoDelete",
   "version": "1.0.00",
   "build": "patch-1.0.14",
   "description": "Somewhat basic \"Message Logger\"",
@@ -10,5 +10,5 @@
     }
   ],
   "color": "#ff0069",
-  "sourceUrl": "https://raw.githubusercontent.com/DrangerOG/enmity-plugins/master/dist/NoDelete.js"
+  "sourceUrl": "https://raw.githubusercontent.com/DrangerOG/enmity-plugins/refs/heads/master/dist/NoDelete.js"
 }
