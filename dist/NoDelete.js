@@ -1,11 +1,87 @@
-function S(e,o,a){window.enmity.settings.set(e,o,a)}function T(e,o,a){return window.enmity.settings.get(e,o,a)}function D(e,o,a){return window.enmity.settings.getBoolean(e,o,a)}const{components:s}=window.enmity;s.Alert;const we=s.Button;s.FlatList;const Q=s.Image;s.ImageBackground,s.KeyboardAvoidingView,s.Modal,s.Pressable,s.RefreshControl;const Z=s.ScrollView;s.SectionList,s.StatusBar,s.StyleSheet,s.Switch;const b=s.Text;s.TextInput,s.TouchableHighlight;const L=s.TouchableOpacity;s.TouchableWithoutFeedback,s.Touchable;const E=s.View;s.VirtualizedList,s.Form,s.FormArrow,s.FormCTA,s.FormCTAButton,s.FormCardSection,s.FormCheckbox;const v=s.FormDivider;s.FormHint,s.FormIcon;const fe=s.FormInput;s.FormLabel,s.FormRadio;const i=s.FormRow,M=s.FormSection;s.FormSelect,s.FormSubLabel;const P=s.FormSwitch;s.FormTernaryCheckBox,s.FormText,s.FormTextColors,s.FormTextSizes;function be(e){window.enmity.plugins.registerPlugin(e)}const I={byProps:(...e)=>window.enmity.modules.filters.byProps(...e),byName:(e,o)=>window.enmity.modules.filters.byName(e,o),byTypeName:(e,o)=>window.enmity.modules.filters.byTypeName(e,o),byDisplayName:(e,o)=>window.enmity.modules.filters.byDisplayName(e,o)};function j(...e){return window.enmity.modules.bulk(...e)}function k(...e){return window.enmity.modules.getByProps(...e)}function pe(...e){return window.enmity.modules.getByName(...e)}window.enmity.modules.common;const h=window.enmity.modules.common.Constants;window.enmity.modules.common.Clipboard,window.enmity.modules.common.Assets,window.enmity.modules.common.Messages,window.enmity.modules.common.Clyde,window.enmity.modules.common.Avatars;const V=window.enmity.modules.common.Native,t=window.enmity.modules.common.React;window.enmity.modules.common.Dispatcher;const p=window.enmity.modules.common.Storage,_=window.enmity.modules.common.Toasts,N=window.enmity.modules.common.Dialog;window.enmity.modules.common.Token;const ee=window.enmity.modules.common.REST;window.enmity.modules.common.Settings;const G=window.enmity.modules.common.Users,O=window.enmity.modules.common.Navigation,te=window.enmity.modules.common.NavigationNative,oe=window.enmity.modules.common.NavigationStack;window.enmity.modules.common.Theme,window.enmity.modules.common.Linking;const R=window.enmity.modules.common.StyleSheet,Ee=window.enmity.modules.common.ColorMap;window.enmity.modules.common.Components,window.enmity.modules.common.Locale;const ne=window.enmity.modules.common.Profiles;window.enmity.modules.common.Lodash,window.enmity.modules.common.Logger,window.enmity.modules.common.Flux,window.enmity.modules.common.SVG,window.enmity.modules.common.Scenes;function Se(e){return window.enmity.patcher.create(e)}const ae=e=>{let o=0;for(let a in e)o++;return o};function u(e){return window.enmity.assets.getIDByName(e)}const c={Debug:u("debug"),Retry:u("ic_message_retry"),Failed:u("Small"),Cancel:u("ic_megaphone_nsfw_16px"),Add:u("add_white"),Delete:u("ic_message_delete"),Clear:u("ic_clear_all_24px"),Pencil:u("ic_pencil_24px"),Success:u("ic_selection_checked_24px"),Warning:u("ic_warning_24px"),Copy:u("toast_copy_link"),Open:u("ic_leave_stage"),Clipboard:u("pending-alert"),Initial:u("coffee"),Shield:u("ic_person_shield"),Debug_Command:{Sent:u("ic_application_command_24px"),Clock:u("clock")},Settings:{Toasts:{Context:u("toast_image_saved"),Settings:u("ic_selection_checked_24px")},Self:u("friends_toast_icon"),Share:u("share"),Robot:u("ic_robot_24px"),Commands:u("ic_profile_badge_bot_commands"),Debug:u("ic_rulebook_16px")}},Y=e=>{_.open({content:`Copied ${e} to clipboard.`,source:c.Clipboard})},ve=e=>{let o=e.split(`
-`).map(a=>{if(a!="")return`"${a.replaceAll(":",'":"').replace(" ","")}",`});return o[0]=`{${o[0]}`,o[ae(o)]=`${o[ae(o)]}}`,o=o.join(""),o=o.replaceAll("undefined",""),o=o.split("").reverse().join("").replace(",","").split("").reverse().join(""),o};async function De(){try{let e=await p.getItem("device_list");if(e)return JSON.parse(e);let o=(await ee.get("https://gist.githubusercontent.com/adamawolf/3048717/raw/1ee7e1a93dff9416f6ff34dd36b0ffbad9b956e9/Apple_mobile_device_types.txt")).text,a=ve(o);await p.setItem("device_list",a);let n=await p.getItem("device_list");return JSON.parse(n)}catch(e){console.warn(`[SpinsPlugins Local Error \u2014 Issue when getting devices: ${e}]`);return}}async function $e(e,o,a){let n=await De();return`**[${e}] Debug Information**
-> **Plugin Version:** ${o}
-> **Plugin Build:** ${a.split("-")[1]}
-> **Discord Build:** <span class="math-inline">\{V\.InfoDictionaryManager\.Version\} \(</span>{V.InfoDictionaryManager.Build})
-> **Software Version:** ${V.DCDDeviceManager.systemVersion}
-> **Device:** ${n[V.DCDDeviceManager.device]}`}const{native:F}=window.enmity;function Le(){F.reload()}F.version,F.build,F.device,F.version;const xe=k("transitionToGuild");async function Ce({manifest:e}){const o=`<span class="math-inline">\{e\.sourceUrl\}?</span>{Math.floor(Math.random()*1001)}.js`,a=await(await ee.get(o)).text;let n=a.match(/\d\.\d\.\d+/g),r=a.match(/patch\-\d\.\d\.\d+/g);return!n||!r?se(e.name,e.version):(n=n[0],r=r[0],n!=e.version?le(o,n,r.split("-")[1],e,!1):r!=e.build?le(o,n,r.split("-")[1],e,!0):se(e.name,e.version))}const le=(e,o,a,n,r)=>{const g=r?a:o;N.show({title:"Update found",body:`A newer ${r?"build":"version"} is available for ${n.name}. ${r?`
-The version will remain at ${o}, but the build will update to ${a}.`:""}
-Would you like to install ${r?`build \`${a}\``:`version \`${o}\``}  now?`,confirmText:"Update",cancelText:"Not now",onConfirm:()=>Te(e,g,n,r)})},se=(e,o)=>{console.log(`[${e}] Plugin is on the latest version, which is ${o}`),_.open({content:`<span class="math-inline">\{e\} is on latest version \(</span>{o})`,source:c.Success})};async function Te(e,o,a,n){window.enmity.plugins.installPlugin(e,({data:r})=>{r=="installed_plugin"||r=="overridden_plugin"?N.show({title:`Updated ${a.name}`,body:`Successfully updated to ${n?"build":"version"} \`${o}\`. 
-Would you like to reload Discord now?`,confirmText:"Yep!",cancelText:"Not now",onConfirm:()=>{Le()}}):N.show({title:"Error",body:`Something went wrong while updating ${a.name}.`,confirmText:"Report this issue",cancelText:"Cancel",onConfirm:()=>{xe.openURL(`https://github.com/spinfal/enmity-plugins/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D%20${a.name}%20Update%20Error%3A%20${n?`b${o}`:`v${o}`}`)}})})}const H=window.enmity.modules.common.Components.General.Animated,[z,Ie]=j(I.byProps("transitionToGuild"),I.byProps("setString")),w=R.createThemedStyleSheet({container:{paddingTop:30,paddingLeft:20,marginBottom:-5,flexDirection:"row"},text_container:{paddingLeft:15,paddingTop:5,flexDirection:"column",flexWrap:"wrap"},image:{width:75,height:75,borderRadius:10},main_text:{opacity:.975,letterSpacing:.25,fontFamily:h.Fonts.DISPLAY_NORMAL},header:{color:h.ThemeColorMap.HEADER_PRIMARY,fontFamily:h.Fonts.DISPLAY_BOLD,fontSize:25,letterSpacing:.25},sub_header:{color:h.ThemeColorMap.HEADER_SECONDARY,opacity:.975,fontSize:12.75}});var Ne=({manifest:e})=>{const o=t.useRef(new H.Value(1)).current,a=()=>{H.spring(o,{toValue:1.1,duration:250,useNativeDriver:!0}).start()},n=()=>{H.spring(o,{toValue:1,duration:250,useNativeDriver:!0}).start()},r=()=>{z.openURL("https://spin.rip/")},g={transform:[{scale:o}]};return t.createElement(t.Fragment,null,t.createElement(E,{style:w.container},t.createElement(L,{onPress:r,onPressIn:a,onPressOut:n},t.createElement(H.View,{style:[g]},t.createElement(Q,{style:[w.image],source:{uri:"https://cdn.spin.rip/r/l9uevwe4ia0.jpg"}}))),t.createElement(E,{style:w.text_container},t.createElement(L,{onPress:()=>{z.openURL(e.sourceUrl)}},t.createElement(b,{style:[w.main_text,w.header]},e.name," ")),t.createElement(E,{style:{flexDirection:"row"}},t.createElement(b,{style:[w.main_text,w.sub_header]},"A plugin by"),t.createElement(L,{onPress:()=>{z.openURL("https://spin.rip/")}},t.createElement(b,{style:[w.main_text,w.sub_header,{paddingLeft:4,fontFamily:h.Fonts.DISPLAY_BOLD}]},e.authors[0].name))),t.createElement(E,{style:{flexDirection:"row"}},t.createElement(b,{style:[w.main_text,w.sub_header]},"Settings page by"),t.createElement(L,{onPress:()=>{z.openURL("https://github.com/acquitelol/")}},t.createElement(b,{style:[w.main_text,w.sub_header,{paddingLeft:4,fontFamily:h.Fonts.DISPLAY_BOLD}]},"Rosie<3"))),t.createElement(E,null,t.createElement(L,{style:{flexDirection:"row"},onPress:()=>{Ie.setString(`**<span class="math-inline">\{e\.name\}\*\* v</span>{e.version}`),Y("plugin name and version")}},t.createElement(b,{style:[w.main_text,w.sub_header]},"Version:"),t.createElement(b,{style:[w.main_text,w.sub_header,{paddingLeft:4,fontFamily:h.Fonts.DISPLAY_BOLD}]},e.version," "))))))};const[Be,re]=j(I.byProps("transitionToGuild","openURL"),I.byProps("setString","getString")),x=R.createThemedStyleSheet({bottom_padding:{paddingBottom:25},icon:{color:h.ThemeColorMap.INTERACTIVE_NORMAL},item:{color:h.ThemeColorMap.TEXT_MUTED},text_container:{display:"flex",flexDirection:"column"}});var Me=({manifest:e,settings:o,hasToasts:a,children:n,commands:r})=>t.createElement(Z,null,t.createElement(Ne,{manifest:e}),n,r&&t.createElement(M,{title:"Plugin Commands"},r.map(g=>t.createElement(i,{label:`/${g.name}`,subLabel:g.description,leading:t.createElement(i.Icon,{style:x.icon,source:c.Settings.Commands}),trailing:i.Arrow,onPress:function(){re.setString(`/${g.name}`),Y(`the command ${g.name}`)}}))),t.createElement(M,{title:"Utility"},a&&t.createElement(t.Fragment,null,t.createElement(i,{label:"Initialization Toasts",leading:t.createElement(i.Icon,{style:x.icon,source:c.Settings.Toasts.Context}),subLabel:`If available, show toasts when ${e.name} is starting`,trailing:t.createElement(P,{value:o.getBoolean(`${e.name}-toastEnable`,!1),onValueChange:()=>{o.toggle(`${e.name}-toastEnable`,!1),_.open({content:`Successfully ${o.getBoolean(`${e.name}-toastEnable`,!1)?"enabled":"disabled"} initialization toasts.`,source:c.Success})}})}),t.createElement(v,null)),t.createElement(i,{label:"Copy Debug Info",subLabel:`Copy useful debug information of ${e.name} to clipboard.`,leading:t.createElement(i.Icon,{style:x.icon,source:c.Settings.Debug}),trailing:i.Arrow,onPress:async function(){re.setString(await $e(e.name,e.version,e.build)),Y("plugin debug information")}}),t.createElement(v,null),t.createElement(i,{label:"Clear Device List Cache",subLabel:"Remove the fetched device list storage. This will not clear Discord's or your iDevice's cache.",leading:t.createElement(i.Icon,{style:x.icon,source:c.Delete}),trailing:i.Arrow,onPress:async function(){await p.removeItem("device_list"),_.open({content:"Cleared device list storage.",source:c.Success})}})),t.createElement(M,{title:"Source"},t.createElement(i,{label:"Check for Updates",subLabel:`Check for any plugin updates for ${e.name}.`,leading:t.createElement(i.Icon,{style:x.icon,source:c.Copy}),trailing:i.Arrow,onPress:()=>{Ce({manifest:e})}}),t.createElement(v,null),t.createElement(i,{label:"Source",subLabel:`View ${e.name} source code`,leading:t.createElement(i.Icon,{style:x.icon,source:c.Open}),trailing:i.Arrow,onPress:()=>{Be.openURL(`https://github.com/spinfal/enmity-plugins/tree/master/${e.name}`)}})),t.createElement(i,{style:x.bottom_padding,label:`Plugin Version: ${e.version}
-Plugin Build: ${e.build.split("-").pop()}`}));async function ie(e,o,a,n){const r={type:e,author:{...o,avatar:o.avatar?`https://cdn.discordapp.com/avatars/<span class="math-inline">\{o\.id\}/</span>{o.avatar}.${o.avatar?.startsWith("a_")?"gif":"png"}?size=1024`:"https://cdn.discordapp.com/embed/avatars/0.png"},context:a,content:n.edited?[new Date(n.time).toLocaleString(),n.original,n.edited]:[new Date(n.time).toLocaleString(),n.original]};let g=await p.getItem("NoDeleteLogs");g=JSON.parse(g),r!==g[g.length-1]&&(g.push(r),await p.setItem("NoDeleteLogs",JSON.stringify(g)))}var Pe="NoDelete",Re="3.5.15",Fe="patch-1.0.14",Ue='Somewhat basic "Message Logger"',Ae=[{name:"Marek (modified by
+/**
+ * NoDelete Plugin - Clean Version
+ * Shows deleted messages in red and updates edited messages cleanly.
+ */
+
+(function () {
+  const { getByProps } = enmity.metro;
+  const { Storage, Users, Toasts, Constants } = enmity.metro.common;
+  const { create } = enmity.patcher;
+  const { registerPlugin } = enmity.managers.plugins;
+
+  const Patcher = create("NoDelete");
+
+  let currentUserID;
+
+  const plugin = {
+    name: "NoDelete",
+    version: "1.0.0",
+    description: "Shows deleted messages in red and updates edited ones without '[edited]' tag.",
+    authors: [{ name: "YourName", id: "000000000000000000" }],
+
+    onStart() {
+      const FluxDispatcher = getByProps(
+        "_currentDispatchActionType",
+        "_subscriptions",
+        "_actionHandlers",
+        "_waitQueue"
+      );
+
+      const MessageStore = getByProps("getMessage", "getMessages");
+      const ChannelStore = getByProps("getChannel", "getDMFromUserId");
+
+      currentUserID = Users.getCurrentUser().id;
+
+      // Patch message delete
+      const MessageDelete = FluxDispatcher._actionHandlers._orderedActionHandlers?.MESSAGE_DELETE.find(
+        (h) => h.name === "MessageStore"
+      );
+
+      Patcher.before(MessageDelete, "actionHandler", (_, args) => {
+        const originalMessage = MessageStore.getMessage(args[0].channelId, args[0].id);
+        if (!originalMessage?.content) return;
+
+        const editEvent = {
+          type: "MESSAGE_UPDATE",
+          message: {
+            ...originalMessage,
+            edited_timestamp: "invalid_timestamp",
+            content: originalMessage.content,
+            colorString: "#ff4d4d"
+          },
+          log_edit: false
+        };
+
+        FluxDispatcher.dispatch(editEvent);
+      });
+
+      // Patch message edit
+      const MessageUpdate = FluxDispatcher._actionHandlers._orderedActionHandlers?.MESSAGE_UPDATE.find(
+        (h) => h.name === "MessageStore"
+      );
+
+      Patcher.before(MessageUpdate, "actionHandler", (_, args) => {
+        const originalMessage = MessageStore.getMessage(
+          args[0].message.channel_id,
+          args[0].message.id
+        );
+
+        if (!originalMessage?.content || !args[0]?.message?.content) return;
+
+        args[0].message.content = args[0]?.message?.content;
+      });
+
+      Toasts.open({
+        content: "[NoDelete] Plugin enabled.",
+        source: "NoDelete",
+        color: Constants.ThemeColorMap.BACKGROUND_ACCENT
+      });
+    },
+
+    onStop() {
+      Patcher.unpatchAll();
+    }
+  };
+
+  registerPlugin(plugin);
+})();
