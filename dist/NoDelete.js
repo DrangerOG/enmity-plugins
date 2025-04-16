@@ -1,25 +1,29 @@
 /**
- * NoDelete Plugin - Clean Version
- * Shows deleted messages in red and updates edited messages cleanly.
+ * @name NoDelete
+ * @version 3.5.15
+ * @description Somewhat basic "Message Logger"
+ * @author Marek (modified by spin)
+ * @source https://raw.githubusercontent.com/DrangerOG/enmity-plugins/master/dist/NoDelete.js
  */
 
 (function () {
   const { getByProps } = enmity.metro;
-  const { Storage, Users, Toasts, Constants } = enmity.metro.common;
+  const { Toasts, Constants, Storage, Users } = enmity.metro.common;
   const { create } = enmity.patcher;
   const { registerPlugin } = enmity.managers.plugins;
 
   const Patcher = create("NoDelete");
-
   let currentUserID;
 
-  const plugin = {
+  const NoDelete = {
     name: "NoDelete",
-    version: "1.0.0",
-    description: "Shows deleted messages in red and updates edited ones without '[edited]' tag.",
-    authors: [{ name: "YourName", id: "000000000000000000" }],
+    version: "3.5.15",
+    description: "Somewhat basic Message Logger - shows deleted messages in red and cleanly updates edits.",
+    authors: [{ name: "Marek (modified by spin)", id: "308440976723148800" }],
 
     onStart() {
+      currentUserID = Users.getCurrentUser()?.id;
+
       const FluxDispatcher = getByProps(
         "_currentDispatchActionType",
         "_subscriptions",
@@ -30,49 +34,43 @@
       const MessageStore = getByProps("getMessage", "getMessages");
       const ChannelStore = getByProps("getChannel", "getDMFromUserId");
 
-      currentUserID = Users.getCurrentUser().id;
+      // Wake up the dispatcher
+      FluxDispatcher.dispatch({ type: "MESSAGE_UPDATE", message: {} });
+      FluxDispatcher.dispatch({ type: "MESSAGE_DELETE", message: {} });
 
-      // Patch message delete
+      // Handle deleted messages
       const MessageDelete = FluxDispatcher._actionHandlers._orderedActionHandlers?.MESSAGE_DELETE.find(
         (h) => h.name === "MessageStore"
       );
 
       Patcher.before(MessageDelete, "actionHandler", (_, args) => {
-        const originalMessage = MessageStore.getMessage(args[0].channelId, args[0].id);
-        if (!originalMessage?.content) return;
+        const original = MessageStore.getMessage(args[0].channelId, args[0].id);
+        if (!original || !original.content) return;
 
-        const editEvent = {
+        FluxDispatcher.dispatch({
           type: "MESSAGE_UPDATE",
           message: {
-            ...originalMessage,
+            ...original,
             edited_timestamp: "invalid_timestamp",
-            content: originalMessage.content,
-            colorString: "#ff4d4d"
+            content: "```diff\n- " + original.content + "\n```"
           },
           log_edit: false
-        };
-
-        FluxDispatcher.dispatch(editEvent);
+        });
       });
 
-      // Patch message edit
+      // Handle edited messages
       const MessageUpdate = FluxDispatcher._actionHandlers._orderedActionHandlers?.MESSAGE_UPDATE.find(
         (h) => h.name === "MessageStore"
       );
 
       Patcher.before(MessageUpdate, "actionHandler", (_, args) => {
-        const originalMessage = MessageStore.getMessage(
-          args[0].message.channel_id,
-          args[0].message.id
-        );
-
-        if (!originalMessage?.content || !args[0]?.message?.content) return;
-
-        args[0].message.content = args[0]?.message?.content;
+        const original = MessageStore.getMessage(args[0].message.channel_id, args[0].message.id);
+        if (!original || !args[0]?.message?.content) return;
+        args[0].message.content = args[0].message.content;
       });
 
       Toasts.open({
-        content: "[NoDelete] Plugin enabled.",
+        content: "[NoDelete] Plugin loaded successfully.",
         source: "NoDelete",
         color: Constants.ThemeColorMap.BACKGROUND_ACCENT
       });
@@ -83,5 +81,5 @@
     }
   };
 
-  registerPlugin(plugin);
+  registerPlugin(NoDelete);
 })();
